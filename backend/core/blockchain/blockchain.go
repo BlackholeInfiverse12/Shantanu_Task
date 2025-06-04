@@ -19,7 +19,7 @@ type Block struct {
 var Blockchain []Block
 
 func calculateHash(block Block) string {
-	data := fmt.Sprintf("%d%s%s%s%d", block.Index, block.Timestamp, block.Data, block.PrevHash, block.Nonce)
+	data := fmt.Sprintf("%d, %s, %s, %s, %d", block.Index, block.Timestamp, block.Data, block.PrevHash, block.Nonce)
 	hash := sha256.Sum256([]byte(data))
 	return hex.EncodeToString(hash[:])
 }
@@ -28,7 +28,7 @@ func proofOfWork(index int, data, prevHash string) (string, int) {
 	nonce := 0
 	var hash string
 	for {
-		blockData := fmt.Sprintf("%d%s%s%d", index, data, prevHash, nonce)
+		blockData := fmt.Sprintf("%d, %s, %s. %d", index, data, prevHash, nonce)
 		hashBytes := sha256.Sum256([]byte(blockData))
 		hash = hex.EncodeToString(hashBytes[:])
 		if hash[:4] == "0000" {
