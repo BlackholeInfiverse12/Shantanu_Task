@@ -2,12 +2,16 @@ package listener
 
 import (
     "context"
+    "encoding/json"
     "log"
     "math/big"
+    "strings"
+    "sync"
 
     "github.com/ethereum/go-ethereum"
     "github.com/ethereum/go-ethereum/accounts/abi"
     "github.com/ethereum/go-ethereum/common"
+    "github.com/ethereum/go-ethereum/core/types"
     "github.com/ethereum/go-ethereum/ethclient"
 )
 
@@ -15,16 +19,25 @@ const (
     erc20ABI = `[{"anonymous":false,"inputs":[{"indexed":true,"name":"from","type":"address"},{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"value","type":"uint256"}],"name":"Transfer","type":"event"}]`
 )
 
+type TransferEvent struct {
+    From  string   `json:"from"`
+    To    string   `json:"to"`
+    Value *big.Int `json:"value"`
+}
+
 type EventListener struct {
-    client      *ethclient.Client
+    client          *ethclient.Client
     contractAddress common.Address
+    mu              sync.Mutex
+    Events          []TransferEvent
 }
 
 func NewEventListener(client *ethclient.Client, contractAddress string) (*EventListener, error) {
     address := common.HexToAddress(contractAddress)
     return &EventListener{
-        client:         client,
+        client:          client,
         contractAddress: address,
+        Events:          make([]TransferEvent, 0),
     }, nil
 }
 
@@ -39,7 +52,7 @@ func (el *EventListener) ListenTransferEvents(ctx context.Context) error {
         Addresses: []common.Address{el.contractAddress},
     }
 
-    logs := make(chan ethereum.Log)
+    logs := make(chan types.Log)
     sub, err := el.client.SubscribeFilterLogs(ctx, query, logs)
     if err != nil {
         return err
@@ -63,7 +76,28 @@ func (el *EventListener) ListenTransferEvents(ctx context.Context) error {
                 continue
             }
 
-            log.Printf("Transfer event: From: %s, To: %s, Value: %s", event.From.Hex(), event.To.Hex(), event.Value.String())
+            if len(vLog.Topics) >= 3 {
+                event.From = common.HexToAddress(vLog.Topics[1].Hex())
+                event.To = common.HexToAddress(vLog.Topics[2].Hex())
+            }
+
+            transfer := TransferEvent{
+                From:  event.From.Hex(),
+                To:    event.To.Hex(),
+                Value: event.Value,
+            }
+
+            el.mu.Lock()
+            el.Events = append(el.Events, transfer)
+            el.mu.Unlock()
+
+            log.Printf("Transfer event: From: %s, To: %s, Value: %s", transfer.From, transfer.To, transfer.Value.String())
         }
     }
+}
+
+func (el *EventListener) GetEventsJSON() ([]byte, error) {
+    el.mu.Lock()
+    defer el.mu.Unlock()
+    return json.Marshal(el.Events)
 }

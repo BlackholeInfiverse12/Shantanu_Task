@@ -92,6 +92,6 @@ func main() {
 
 	http.HandleFunc("/blocks", handler)
 
-	log.Println("Server started at :8080")
+	log.Println("Server started at : http://localhost:8080/blocks")
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
