@@ -25,7 +25,7 @@ export const columns = [
   {
     accessorKey: "Index",
     header: "Index",
-    cell: ({ row }) => <div>{row.getValue("Index")}</div>,
+    cell: ({ row }) => <div style={{background:"linear-gradient(#212121,#1c1c1c)",borderBottom:"5px",paddingLeft:"10px",paddingRight:"10px", borderRadius:"25%"}}>{row.getValue("Index")}</div>,
   },
   {
     accessorKey: "Timestamp",
@@ -165,7 +165,7 @@ export function BlockchainViewer() {
                     {headerGroup.headers.map((header) => (
                       <th
                         key={header.id}
-                        className="border border-gray-300 px-5 py-3 text-sm font-semibold text-gray-700 text-center"
+                        // className=""
                       >
                         {header.isPlaceholder
                           ? null

@@ -93,7 +93,7 @@ input[type="checkbox"] {
 }
 
 .drp{
- 
+ cursor: pointer;
   padding: 1rem;
   border-radius: 0.375rem;
   backdrop-filter: blur(10px);
@@ -160,6 +160,16 @@ button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
+
+.drp:hover {
+  border-color: #646cff;
+}
+
+
+
+
+
+
 
 @media (prefers-color-scheme: light) {
   :root {
