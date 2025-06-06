@@ -18,7 +18,7 @@ import (
 
 const (
     solanaRPCURL  = "https://api.mainnet-beta.solana.com"
-    tokenMintAddr = "Es9vMFrzaCER5vL9K1b5nYkZ1u1uY1Y1Y1Y1Y1Y1Y1Y1" //wraped BTC
+    tokenMintAddr = "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v" //USDC H8jsFz5vF1ejc8BG8Urxu3U7k6pX4Ckn9zMFeZhdQ3Xz Es9vMFrzaCER5vL9K1b5nYkZ1u1uY1Y1Y1Y1Y1Y1Y1Y1
     pollInterval  = 5 * time.Second // Increased to avoid rate limit
     maxEvents     = 100             // Only keep the latest 100 events
 )
@@ -186,6 +186,7 @@ func main() {
 
    http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Content-Type", "text/html")
+    w.Write([]byte(`<meta http-equiv="refresh" content="5">`))
     events, err := listener.GetEventsJSON()
     if err != nil {
         http.Error(w, "Failed to get events", http.StatusInternalServerError)
@@ -212,6 +213,7 @@ func main() {
     http.HandleFunc("/events", func(w http.ResponseWriter, r *http.Request) {
         w.Header().Set("Access-Control-Allow-Origin", "*") // Enable CORS
         w.Header().Set("Content-Type", "application/json")
+        w.Write([]byte(`<meta http-equiv="refresh" content="5">`))
         data, err := listener.GetEventsJSON()
         if err != nil {
             http.Error(w, "Failed to get events", http.StatusInternalServerError)
