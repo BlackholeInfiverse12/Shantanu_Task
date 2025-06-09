@@ -14,10 +14,10 @@ type TransactionEvent struct {
     Amount      float64 `json:"amount"`
 }
 
-type EthTransaction struct {
-    Hash   string  `json:"hash"`
-    Amount float64 `json:"amount"`
-}
+// type EthTransaction struct {
+//     Hash   string  `json:"hash"`
+//     Amount float64 `json:"amount"`
+// }
 
 type SolanaTransaction struct {
     Signature string  `json:"signature"`

@@ -3,8 +3,18 @@ package internal
 import (
     "context"
     "log"
+      "math/big"
     "github.com/ethereum/go-ethereum/rpc"
+    "encoding/json"
+    // "strconv"
+    "strings"
 )
+
+type EthTransaction struct {
+    Hash  string `json:"hash"`
+    Value string `json:"value"` // Value in hex string (wei)
+    // ...other fields...
+}
 
 type EthListener struct {
     client *rpc.Client
@@ -36,19 +46,34 @@ func (el *EthListener) Start() {
 }
 
 func (el *EthListener) handleTransaction(txHash string) {
-    var tx EthTransaction
-    err := el.client.Call(&tx, "eth_getTransactionByHash", txHash)
+    var raw json.RawMessage
+    err := el.client.Call(&raw, "eth_getTransactionByHash", txHash)
     if err != nil {
         log.Printf("Failed to get transaction: %v", err)
         return
     }
 
+    var tx EthTransaction
+    if err := json.Unmarshal(raw, &tx); err != nil {
+        log.Printf("Failed to unmarshal transaction: %v", err)
+        return
+    }
+
+    // Convert value from hex (wei) to float64 (ether)
+    amount := 0.0
+    if tx.Value != "" {
+        wei := new(big.Int)
+        wei.SetString(strings.Replace(tx.Value, "0x", "", 1), 16)
+        ether := new(big.Float).Quo(new(big.Float).SetInt(wei), big.NewFloat(1e18))
+        amount, _ = ether.Float64()
+    }
+
     event := TransactionEvent{
         SourceChain: "Ethereum",
         TxHash:      tx.Hash,
-        Amount:      tx.Amount,
+        Amount:      amount,
     }
 
     el.relay.PushEvent(event)
-    log.Printf("Captured ETH transaction: %s", txHash)
+    log.Printf("Captured ETH transaction: %s amount: %f", txHash, amount)
 }

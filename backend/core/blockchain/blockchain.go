@@ -18,6 +18,19 @@ type Block struct {
 
 var Blockchain []Block
 
+func AddMessage(data string) {
+    // Create a new block (simplified, you may want to use your real logic)
+    newBlock := Block{
+        Index:     len(Blockchain),
+        Timestamp: "now", // Replace with actual timestamp
+        Data:      data,
+        PrevHash:  "",
+        Hash:      "",
+        Nonce:     0,
+    }
+    Blockchain = append(Blockchain, newBlock)
+}
+
 func calculateHash(block Block) string {
 	data := fmt.Sprintf("%d, %s, %s, %s, %d", block.Index, block.Timestamp, block.Data, block.PrevHash, block.Nonce)
 	hash := sha256.Sum256([]byte(data))

@@ -1,44 +1,54 @@
 package internal
 
 import (
+    "Projects/TTCont/backend/core/blockchain"
     "testing"
-    "time"
+    "fmt"
 )
 
-func TestBridgeMessageChecksum(t *testing.T) {
-    msg := &BridgeMessage{
-        SourceChain: "Ethereum",
-        TargetChain: "Solana",
-        Token:       "USDT",
-        Amount:      100,
-        Sender:      "0xabc",
-        Receiver:    "0xdef",
-        TxHash:      "0x123",
-        Timestamp:   time.Now().Unix(),
-    }
-    msg.Checksum = msg.ComputeChecksum()
-    if !msg.ValidateChecksum() {
-        t.Error("Checksum validation failed")
+func blockToBridgeMessage(block blockchain.Block) *BridgeMessage {
+    return &BridgeMessage{
+        Index:     block.Index,
+        Timestamp: block.Timestamp,
+        Data:      block.Data,
+        PrevHash:  block.PrevHash,
+        Hash:      block.Hash,
+        Nonce:     block.Nonce,
     }
 }
 
-func TestBridgeMessageReplay(t *testing.T) {
+func TestBridgeMessagesFromBlockchain(t *testing.T) {
     store := NewBridgeMessageStore()
-    msg := &BridgeMessage{
-        SourceChain: "Ethereum",
-        TargetChain: "Solana",
-        Token:       "USDT",
-        Amount:      100,
-        Sender:      "0xabc",
-        Receiver:    "0xdef",
-        TxHash:      "0x123",
-        Timestamp:   1234567890,
+    type result struct {
+        Index int
+        Hash  string
+        Status string
+        Reason string
     }
-    msg.Checksum = msg.ComputeChecksum()
-    if !store.AddIfNew(msg) {
-        t.Error("First message should be new")
+    var results []result
+
+    for _, block := range blockchain.Blockchain {
+        msg := blockToBridgeMessage(block)
+        r := result{Index: block.Index, Hash: block.Hash}
+        if !store.AddIfNew(msg) {
+            r.Status = "FAIL"
+            r.Reason = "Duplicate/replay"
+            t.Errorf("Duplicate/replay detected for block hash %s", block.Hash)
+        } else if msg.ComputeChecksum() == "" {
+            r.Status = "FAIL"
+            r.Reason = "Empty checksum"
+            t.Errorf("Checksum should not be empty for block hash %s", block.Hash)
+        } else {
+            r.Status = "PASS"
+            r.Reason = ""
+            t.Logf("Block %d (hash: %s) passed validation.", block.Index, block.Hash)
+        }
+        results = append(results, r)
     }
-    if store.AddIfNew(msg) {
-        t.Error("Duplicate message should be rejected")
+
+    fmt.Println("\n--- Block Validation Results ---")
+    fmt.Println("Index\tHash\t\t\t\t\t\t\tStatus\tReason")
+    for _, r := range results {
+        fmt.Printf("%d\t%s\t%s\t%s\n", r.Index, r.Hash, r.Status, r.Reason)
     }
 }

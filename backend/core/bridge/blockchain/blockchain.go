@@ -6,12 +6,17 @@ import (
 )
 
 // Transaction represents a blockchain transaction with metadata.
-
+type Transaction struct {
+    Hash   string
+    Amount string // or int/float64, depending on your use case
+    // Add other fields as needed
+}
 // Blockchain represents a simple in-memory blockchain.
 type Blockchain struct {
 	transactions []Transaction
 	mu           sync.Mutex
 }
+
 
 // NewBlockchain creates a new instance of Blockchain.
 func NewBlockchain() *Blockchain {
