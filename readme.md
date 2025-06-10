@@ -5,13 +5,13 @@ Go Blockchain Bridge Documentation
 --------
 Go Blockchain Bridge is a cross-chain bridge connecting Ethereum and Solana, featuring a Go backend and a React + Vite frontend. It standardizes cross-chain messages, validates them, prevents replay attacks, and provides a real-time dashboard for monitoring transactions.
 
-1. Setup
+### 1. Setup
 Prerequisites
 Go: v1.24.2 or higher
 Node.js: v18+ and npm
 Git: For cloning the repository
 
- Directory Structure:
+ **Directory Structure**:
   
     TTCont/
     |-- backend/
@@ -43,15 +43,15 @@ Git: For cloning the repository
     |-- frontend/
 
 
-----------------------------------------
+**----------------------------------------**
 
-2. Configuration
+### 2. Configuration
 Environment Variables
 For flexibility and security, use a .env file or config.json for sensitive and environment-specific parameters.
 
 Create a .env file in both backend and frontend directories as needed.
 
-backend/.env
+**backend/.env**
 
 ETH_RPC_URL=wss://mainnet.infura.io/ws/v3/688f2501b7114913a6b23a029bd43c9d
 SOL_RPC_URL=https://api.mainnet-beta.solana.com
@@ -60,7 +60,7 @@ BACKEND_PORT=8083
 ETH_LISTENER_PORT=8081
 SOL_LISTENER_PORT=8082
 
-frontend/.env
+**frontend/.env**
 
 VITE_BACKEND_URL=http://localhost:8083
 VITE_ETH_EVENTS_URL=http://localhost:8081/events
@@ -75,10 +75,10 @@ config.json
   "backendPort": 8083
 }
 
--------------------------------------------
+**-------------------------------------------**
 
-3. Modules:-
-Backend
+### 3. Modules:-
+**Backend**
     1. Install Go dependencies
     cd backend
     go mod tidy
@@ -89,7 +89,7 @@ Backend
     3. Module - Core
             It includes the blockchain, bridge, Ethereum, Solana, and Go-Bridge-Server packages
     
-    -------------------------------------
+    **-------------------------------------**
 
     4. Module - Bridge        
             Bridge is the central module that ties everything together.
@@ -102,15 +102,15 @@ Backend
 
          This will start the relay server that will capture Ethereum and Solana Transactions and forward events from the blockchain to the Go-Bridge.
     
-    ---------------------------------
+    **---------------------------------**
 
-    5. Module - Ethereum
+    **5. Module - Ethereum**
     It includes the Ethereum package that handles Ethereum transactions and events.
 
     cd ethereum/eth-event-listener/cmd
     go run main.go
 
-    ---------------------------------
+    **---------------------------------**
 
     6. Module - Solana
     It includes the Solana package that handles Solana transactions and events.
@@ -118,7 +118,7 @@ Backend
     cd solana/sol-event-listener
     go run solListener.go
 
-    -------------------------------------
+    **-------------------------------------**
 
     7. Module - Go-Bridge-Server
     It includes the Go-Bridge-Server package that handles communication between the blockchain and the Go-Bridge
@@ -128,7 +128,7 @@ Backend
     cd go-bridge-server/cmd/server
     go run main.go
 
-    ----------------------------------------
+    **----------------------------------------**
 
     8.  Bridge Dashboard (CLI or Minimal UI)
     It shows recent events, relayed messages, validation results
@@ -136,9 +136,9 @@ Backend
     Server started at http://localhost:8083/  (Recent Events)
     Server started at http://localhost:8083/validation  (Validation results)
 
---------------------------------------------
+**--------------------------------------------**
 
-4. Final Run
+### 4. Final Run
  
  a. Installing Dependencies:
     run the following command in the each module:

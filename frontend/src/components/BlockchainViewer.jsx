@@ -109,6 +109,7 @@ export function BlockchainViewer() {
 
   return (
     <div className="block-container">
+      
       <div className="w-full max-w-full">
         <h1 className="text-3xl font-bold mb-6 text-center">Go Blockchain Viewer</h1>
       </div>
