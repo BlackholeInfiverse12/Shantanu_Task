@@ -111,23 +111,24 @@ config.json
     
 **---------------------------------**
 
-    **5. Module - Ethereum**
+    5. Module - Ethereum:
     It includes the Ethereum package that handles Ethereum transactions and events.
 
     cd ethereum/eth-event-listener/cmd
     go run main.go
 
-    **---------------------------------**
+**---------------------------------**
 
-    6. Module - Solana
+    6. Module - Solana:
     It includes the Solana package that handles Solana transactions and events.
 
     cd solana/sol-event-listener
     go run solListener.go
 
-    **-------------------------------------**
+**-------------------------------------**
 
-    7. Module - Go-Bridge-Server
+    7. Module - Go-Bridge-Server:
+
     It includes the Go-Bridge-Server package that handles communication between the blockchain and the Go-Bridge
     Main function: 
     Working bridge server in /cmd/server.go with Postman or cURL Test.
@@ -135,9 +136,10 @@ config.json
     cd go-bridge-server/cmd/server
     go run main.go
 
-    **----------------------------------------**
+**----------------------------------------**
 
-    8.  Bridge Dashboard (CLI or Minimal UI)
+    8.  Bridge Dashboard (CLI or Minimal UI):
+
     It shows recent events, relayed messages, validation results
     
     Server started at http://localhost:8083/  (Recent Events)
@@ -167,6 +169,7 @@ config.json
     cd bridge
     go run main.go
 
+    Expected output:
 
      server start at http://localhost:8083/events (Relay server capturing events)
 
@@ -185,7 +188,7 @@ config.json
     cd core/go-bridge-server/cmd/server
     go run main.go
 
-    With POSTMAN
+    With POSTMAN:
     - Send a POST request to http://localhost:8084/eth/relay
 
     - Send a POST request to http://localhost:8084/sol/relay
