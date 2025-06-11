@@ -3,7 +3,7 @@ Go Blockchain Bridge Documentation
 
 ### Overview
 --------
-Go Blockchain Bridge is a cross-chain bridge connecting Ethereum and Solana, featuring a Go backend and a React + Vite frontend. It standardizes cross-chain messages, validates them, prevents replay attacks, and provides a real-time dashboard for monitoring transactions.
+Go Blockchain Bridge is a cross-chain bridge connecting Ethereum and Solana, featuring a Go backend and a React + Vite frontend. It standardizes cross-chain messages, validates them, prevents replay attacks, and provides dashboard for monitoring transactions. All functionalities are focused and built on fundamentals.
 
 ### 1. Setup
 Prerequisites
