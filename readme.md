@@ -52,6 +52,7 @@ Git: For cloning the repository
     Create a .env file in both backend and frontend directories as needed.
 
 **backend/.env**:
+
     ETH_RPC_URL=wss://mainnet.infura.io/ws/v3/688f2501b7114913a6b23a029bd43c9d
     SOL_RPC_URL=https://api.mainnet-beta.solana.com
     ETH_ERC20_CONTRACT=0xdAC17F958D2ee523a2206206994597C13D831ec7
