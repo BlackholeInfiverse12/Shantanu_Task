@@ -79,30 +79,37 @@ config.json
 
 ### 3. Modules:-
 **Backend**
-    1. Install Go dependencies
+    1. Install Go dependencies:
+    
     cd backend
     go mod tidy
 
-    2. Running Core Blockchain 
+**-------------------------------------**
+
+    2. Running Core Blockchain:
+
     go run main.go
 
-    3. Module - Core
+**-------------------------------------**
+
+    3. Module - Core:
             It includes the blockchain, bridge, Ethereum, Solana, and Go-Bridge-Server packages
     
-    **-------------------------------------**
+**-------------------------------------**
 
-    4. Module - Bridge        
+    4. Module - Bridge:
+
             Bridge is the central module that ties everything together.
             It is responsible for handling transactions, events, and communication between the blockchain and the Go-Bridg and relay servers.
 
          cd bridge/cmd
          go run main.go
 
-         Server started at http://localhost:8083/events
+         Output: Server started at http://localhost:8083/events
 
          This will start the relay server that will capture Ethereum and Solana Transactions and forward events from the blockchain to the Go-Bridge.
     
-    **---------------------------------**
+**---------------------------------**
 
     **5. Module - Ethereum**
     It includes the Ethereum package that handles Ethereum transactions and events.
