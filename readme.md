@@ -140,22 +140,24 @@ config.json
 
 ### 4. Final Run
  
- a. Installing Dependencies:
+**a. Installing Dependencies**:
+
     run the following command in the each module:
     go mod tidy
 
  
- Run the following commands in separate terminals:
+**Run the following commands in separate terminals**:
 
- b. Run the Core Blockchain 
-     cd backend
-     go run main.go
+**b. Run the Core Blockchain** 
+    cd backend
+    go run main.go
 
-     server start at http://localhost:8080/blocks (blockchain)
+    server start at http://localhost:8080/blocks (blockchain)
 
- c. Run the Relay Server and Dashboard
-     cd bridge
-     go run main.go
+**c. Run the Relay Server and Dashboard**
+    cd bridge
+    go run main.go
+
 
      server start at http://localhost:8083/events (Relay server capturing events)
 
@@ -168,7 +170,7 @@ config.json
 
      ( Note: This will start the Ethereum and Solana Event Listeners relaying events to the Go-Bridge )
 
- d. REST API testing
+**d. REST API testing**
     cd core/go-bridge-server/cmd/server
     go run main.go
 
@@ -180,7 +182,7 @@ config.json
     ( Note: The Message of Transaction Post method will appear in VS Terminal )
 
 
-  e. Run simple frontend for Core Blockchain Transactions
+**e. Run simple frontend for Core Blockchain Transactions**
 
         cd frontend
         npm install
