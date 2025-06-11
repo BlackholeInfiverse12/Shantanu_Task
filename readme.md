@@ -170,7 +170,7 @@ config.json
     go run main.go
 
     Expected output:
-
+    
      server start at http://localhost:8083/events (Relay server capturing events)
 
      server start at http://localhost:8083/api/bridge-validation (Validation tests)
@@ -188,7 +188,7 @@ config.json
     cd core/go-bridge-server/cmd/server
     go run main.go
 
-    With POSTMAN:
+    With POSTMAN
     - Send a POST request to http://localhost:8084/eth/relay
 
     - Send a POST request to http://localhost:8084/sol/relay
